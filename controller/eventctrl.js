@@ -2,12 +2,14 @@
 const mongodb = require('../config/db.js')
 const Event = require('../models/events.js')
 
-exports.postEvent = function* () {
-  yield Event.postMessage(this.request.body);
-  console.log(this.status = 201);
-}
+exports.postEvent = function* (event) {
+  Event.create(event, function (err, event) {
+    if (err) handleError(err);
+    console.log('event', event);
+  });
+};
 
-exports.postEventMan = function* () {
+exports.postEventManual = function* () {
 
   var event1 = new Event({
     title: 'Brief history of Space Shuttle program jc',

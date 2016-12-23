@@ -6,6 +6,7 @@ const eventCtrl = require('./controller/eventctrl.js');
 
 router.get('/events', eventCtrl.getEvents);
 router.post('/events', eventCtrl.postEventMan);
+router.post('/events', eventCtrl.postEvent);
 router.delete('/events', eventCtrl.deleteAll);
 
 
