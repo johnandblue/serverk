@@ -3,7 +3,7 @@ const mongodb = require('../config/db.js')
 const Event = require('../models/events.js')
 
 exports.postEvent = function* () {
-  yield Message.postMessage(this.request.body);
+  yield Event.postMessage(this.request.body);
   console.log(this.status = 201);
 }
 
@@ -35,7 +35,6 @@ exports.getEvents = function* () {
   console.log('in controller getEvents');
   this.body = yield Event.find();
 }
-
 
 exports.deleteAll = function *() {
   yield Event.remove();
