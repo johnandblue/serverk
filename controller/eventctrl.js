@@ -2,23 +2,30 @@
 const mongodb = require('../config/db.js')
 const Event = require('../models/events.js')
 
-exports.postEvent = function* (event) {
-  Event.create(event, function (err, event) {
-    if (err) handleError(err);
-    console.log('event', event);
+exports.postEvent = function* () {
+  const eventData = this.request.body;
+  console.log('eventData: ', eventData);
+  const newEvent = new Event({
+    title: eventData.title,
+    date: new Date(eventData.date),
+    venue: eventData.venue
   });
+  console.log(newEvent);
+  yield newEvent.save()
+
+  this.body = 'done!';
 };
 
 exports.postEventManual = function* () {
 
   var event1 = new Event({
-    title: 'Brief history of Space Shuttle program jc',
+    title: 'Brief history of Space Shuttle program jc 2',
     date: Date.now(),
     venue: 'NASA History Museum'
   });
 
   var event2 = new Event({
-    title: 'Why did the Challenger explode?',
+    title: 'Why did the Challenger explode? - jc 2',
     date: Date.now(),
     venue: 'Albert II Library Building'
   });
@@ -40,4 +47,5 @@ exports.getEvents = function* () {
 
 exports.deleteAll = function *() {
   yield Event.remove();
+  this.body = 'deleted!'
 };
